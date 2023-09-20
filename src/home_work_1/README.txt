@@ -1,0 +1,33 @@
+Задача 1: 
+	package task1:
+		1.1-1.2 BitwiseOperations
+		1.3 OperationsWithRealNum
+Задача 2: 
+	package task2:
+		2. PriorityOfOperators
+Задача 3: 
+	package task3:
+		3.1 MathExample
+		3.2 RectangleArea
+Задача 4: 
+	package task4:
+		4.1 OddNumber
+		4.2 OutputSecondNum
+		4.3 DivisibilityTwoNum
+		4.4 ConvertingBToKB
+		4.5 LetterOrSymbol
+		4.6 LeapYear
+Задача 5: 
+	package task5:
+		5. AlarmClock
+Задача 6: 
+	package task6:
+		6.1 GreetingIfElse
+		6.2 GreetingIfElseIf
+		6.3 GreetingSwitch
+Задача 7: 
+	package task7:
+		7. PhoneNumber
+Задача 8: 
+	package task8:
+		8. BinaryString
