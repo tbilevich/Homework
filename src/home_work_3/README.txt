@@ -1,0 +1,32 @@
+package calcs:
+	package additional:
+			5.  CalculatorWithCounterClassic
+			6.  CalculatorWithCounterAutoSuper
+			7.  CalculatorWithCounterAutoComposite
+			8.  CalculatorWithCounterAutoAgregation
+			9.  CalculatorWithCounterAutoChoiceAgregation
+			11. CalculatorWithCounterAutoAgregationInterface
+			12. CalculatorWithMemory 
+			13. CalculatorWithCounterAutoDecorator 
+			    CalculatorWithMemoryDecorator
+			14. CalculatorStringExpression
+	package api:
+			10. ICalculator
+	package simple:
+			2.  CalculatorWithOperator
+			3.  CalculatorWithMathCopy
+			4.  CalculatorWithMathExtends
+package runners:
+		1.  WithoutCalculatorMain
+		2.  CalculatorWithOperatorMain 
+		3.  CalculatorWithMathCopyMain 
+		4.  CalculatorWithMathExtendsMain 
+		5.  CalculatorWithCounterClassicMain
+		6.  CalculatorWithCounterAutoSuperMain 
+		7.  CalculatorWithCounterDelegateCompositeMain 
+		8.  CalculatorWithCounterDelegateAgregationMain 
+		9.  CalculatorWithCounterAutoChoiceAgregation
+		11. CalculatorWithCounterAutoCompositeInterfaceMain 
+		12. CalculatorWithMemoryMain 
+		13. CalculatorDecoratorMain 
+		14. CalculatorStringExpressionMain 
