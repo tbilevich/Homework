@@ -26,7 +26,8 @@ import home_work_3.calcs.simple.CalculatorWithMathExtends;
  * 13.7.2 Изменить calc путём изменения создаваемого экземпляра на CalculatorWithCounterClassic. Сделать выводы в комментариях зачем нужен instanceof
  */
 public class CalculatorDecoratorMain {
-    public static void main(String[] args) {
+    public static void main(String ... args) {
+                System.out.println(5 + 6);
         ICalculator calc = new CalculatorWithCounterAutoDecorator(new CalculatorWithMemoryDecorator(new CalculatorWithMathExtends()));
         double result = calc.addition(4.1, calc.addition(calc.multiplication(15, 7), calc.exponentiation(calc.division(28, 5), 2)));
         System.out.println("4.1 + 15 * 7 + (28 / 5) ^ 2 = " + result);
@@ -68,5 +69,7 @@ public class CalculatorDecoratorMain {
                 calc = null;
             }
         } while (calc != null);
+
+
     }
 }

@@ -5,6 +5,7 @@ import home_work_3.calcs.api.ICalculator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,10 +24,10 @@ import java.util.List;
  * экземпляр калькулятора CalculatorStringExpression и используя методы из данного экземпляра посчитать выражения из задания 1.
  * Вывести в консоль результат.
  */
-public class CalculatorStringExpression implements ICalculator {
+public class CalculatorStringExpression{
     private int pos;
     private String[] tokens;
-    ICalculator calc;
+    private ICalculator calc;
 
     /**
      * Конструктор инициализирует вновь созданный объект CalculatorStringExpression
@@ -36,6 +37,7 @@ public class CalculatorStringExpression implements ICalculator {
     public CalculatorStringExpression(ICalculator calc) {
         this.calc = calc;
     }
+
 
     /**
      * Метод вычисления выражения заданного строкой
@@ -78,9 +80,9 @@ public class CalculatorStringExpression implements ICalculator {
 
             // вычисляем
             if (operator.equals("+")) {
-                first = addition(first, second);
+                first = calc.addition(first, second);
             } else {
-                first = subtraction(first, second);
+                first = calc.subtraction(first, second);
             }
         }
         return first;
@@ -92,7 +94,7 @@ public class CalculatorStringExpression implements ICalculator {
      * @return - возвращает результат умножения, или деления, или возведения в степень
      */
     // calculateMultDivExponExpression -> factor ( * | / | ^ ) factor ( * | / | ^ ) ...
-    private double calculateMultDivExponExpression() {
+     private double calculateMultDivExponExpression() {
         // находим множитель/делимое/основание
         double first = getFactor();
 
@@ -109,11 +111,11 @@ public class CalculatorStringExpression implements ICalculator {
 
             // вычисляем
             if (operator.equals("*")) {
-                first = multiplication(first, second);
+                first = calc.multiplication(first, second);
             } else if (operator.equals("/")) {
-                first = division(first, second);
+                first = calc.division(first, second);
             } else {
-                first = exponentiation(first, second);
+                first = calc.exponentiation(first, second);
             }
         }
         return first;
@@ -224,87 +226,5 @@ public class CalculatorStringExpression implements ICalculator {
                 throw new IllegalStateException("Incorrect expression! Something was lost in expression or expression has prohibited symbols.");
             }
         }
-    }
-
-    /**
-     * Метод деления чисел
-     *
-     * @param dividend - делимое
-     * @param divisor  - делитель
-     * @return - возвращает частное
-     */
-    @Override
-    public double division(double dividend, double divisor) {
-        return calc.division(dividend, divisor);
-    }
-
-    /**
-     * Метод умножения чисел
-     *
-     * @param multiplicand - умножаемое
-     * @param multiplier   -  множитель
-     * @return - возвращает произведение
-     */
-    @Override
-    public double multiplication(double multiplicand, double multiplier) {
-        return calc.multiplication(multiplicand, multiplier);
-    }
-
-    /**
-     * Метод вычитания чисел
-     *
-     * @param minuend    - уменьшаемое
-     * @param subtrahend - вычитаемое
-     * @return - возвращает разность
-     */
-    @Override
-    public double subtraction(double minuend, double subtrahend) {
-        return calc.subtraction(minuend, subtrahend);
-    }
-
-    /**
-     * Метод сложения чисел
-     *
-     * @param firstAddend  - первое слагаемое
-     * @param secondAddend - второе слагаемое
-     * @return - возвращает сумму
-     */
-    @Override
-    public double addition(double firstAddend, double secondAddend) {
-        return calc.addition(firstAddend, secondAddend);
-    }
-
-    /**
-     * Метод возведения в степень
-     *
-     * @param base  - основание
-     * @param power - показатель степени
-     * @return - возвращает результат возведения в степень
-     */
-    @Override
-    public double exponentiation(double base, double power) {
-        return calc.exponentiation(base, power);
-    }
-
-    /**
-     * Метод модуля числа
-     *
-     * @param number - введеное число
-     * @return - возвращает модуль числа
-     */
-    @Override
-    public double module(double number) {
-        return calc.module(number);
-    }
-
-    /**
-     * Метод извлечения квадратного корня из числа
-     *
-     * @param number - введенное число
-     * @return - возвращает корень из числа
-     */
-    @Override
-    public double squareRoot(int number) {
-        return calc.squareRoot(number);
     }
 }

@@ -17,6 +17,7 @@ import home_work_3.calcs.api.ICalculator;
  */
 public class CalculatorWithCounterAutoAgregationInterface {
     private ICalculator iCalculator;
+    private long countOperation;
 
     /**
      * Конструктор инициализирует вновь созданный объект CalculatorWithCounterAutoAgregationInterface
@@ -26,8 +27,6 @@ public class CalculatorWithCounterAutoAgregationInterface {
     public CalculatorWithCounterAutoAgregationInterface(ICalculator calc) {
         this.iCalculator = calc;
     }
-
-    private long countOperation;
 
     /**
      * Метод увеличения счетчика при использование методов калькулятора
