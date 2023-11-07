@@ -10,6 +10,7 @@ public class Runner {
         int index2 = container.add("Как дела");
         int index3 = container.add("Работаю");
         int index4 = container.add("Давай потом");
+        System.out.println(container.add(null));
         String text1 = container.get(index1);
         String text2 = container.get(index2);
         String text3 = container.get(index3);

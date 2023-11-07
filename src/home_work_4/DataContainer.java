@@ -60,207 +60,204 @@ import java.util.NoSuchElementException;
  * @param <T> - тип элементов данных
  */
 public class DataContainer<T> implements Iterable<T> {
-    T[] data;
+	private T[] data;
 
-    /**
-     * Конструктор инициализирует вновь созданный объект DataContainer
-     *
-     * @param data - массив элементов
-     */
-    public DataContainer(T[] data) {
-        this.data = data;
-    }
+	/**
+	 * Конструктор инициализирует вновь созданный объект DataContainer
+	 *
+	 * @param data - массив элементов
+	 */
+	public DataContainer(T[] data) {
+		if (data == null) {
+			throw new NullPointerException();
+		}
+		this.data = data;
+	}
 
-    /**
-     * Метод добавления данных во внутреннее поле data
-     *
-     * @param item - элемент, который надо добавить в поле data
-     * @return - возвращает номер позиции в которую были вставлены данные
-     */
-    public int add(T item) {
-        if (item instanceof T) {
-            for (int i = 0; i < data.length; i++) {
-                if (data[i] == null) {
-                    data[i] = item;
-                    return i;
-                }
-            }
-            data = Arrays.copyOf(data, data.length + 1);
-            data[data.length - 1] = item;
-            return data.length - 1;
-        } else {
-            return -1;
-        }
-    }
+	/**
+	 * Метод добавления данных во внутреннее поле data
+	 *
+	 * @param item - элемент, который надо добавить в поле data
+	 * @return - возвращает номер позиции в которую были вставлены данные
+	 */
+	public int add(T item) {
+		if (item != null) {
+			for (int i = 0; i < data.length; i++) {
+				if (data[i] == null) {
+					data[i] = item;
+					return i;
+				}
+			}
+			data = Arrays.copyOf(data, data.length + 1);
+			data[data.length - 1] = item;
+			return data.length - 1;
+		} else {
+			return -1;
+		}
+	}
 
-    /**
-     * Метод возвращающий элемент поля data по его позиции
-     *
-     * @param index - позиция элемента
-     * @return - возвращает элемент по заданной позиции
-     */
-    public T get(int index) {
-        if (index > data.length || index < 0) {
-            return null;
-        }
-        return data[index];
-    }
+	/**
+	 * Метод возвращающий элемент поля data по его позиции
+	 *
+	 * @param index - позиция элемента
+	 * @return - возвращает элемент по заданной позиции
+	 */
+	public T get(int index) {
+		if (index < 0 || index > data.length - 1) {
+			return null;
+		}
+		return data[index];
+	}
 
-    /**
-     * Метод возвращения массива из поля data
-     *
-     * @return - возвращает массив из поля data
-     */
-    public T[] getItems() {
-        return data;
-    }
+	/**
+	 * Метод возвращения массива из поля data
+	 *
+	 * @return - возвращает массив из поля data
+	 */
+	public T[] getItems() {
+		return data;
+	}
 
-    /**
-     * Метод удаления элемента из поля data по индексу
-     *
-     * @param index - индекс удаляемого элемента
-     * @return - <code>true</code>, если получилось удалить элемент, и <code>false</code> в противном случае
-     */
-    public boolean delete(int index) {
-        if (index < data.length && index > 0) {
-            for (int i = index; i < data.length - 1; i++) {
-                T temp = data[i];
-                data[i] = data[i + 1];
-                data[i + 1] = temp;
-            }
-            data = Arrays.copyOf(data, data.length - 1);
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Метод удаления элемента из поля data по индексу
+	 *
+	 * @param index - индекс удаляемого элемента
+	 * @return - <code>true</code>, если получилось удалить элемент, и <code>false</code> в противном случае
+	 */
+	public boolean delete(int index) {
+		if (index < data.length && index > -1) {
+			for (int i = index; i < data.length - 1; i++) {
+				T temp = data[i];
+				data[i] = data[i + 1];
+				data[i + 1] = temp;
+			}
+			data = Arrays.copyOf(data, data.length - 1);
+			return true;
+		}
+		return false;
+	}
 
-    /**
-     * Метод удаления элемента из поля data
-     *
-     * @param item - удаляемый элемент
-     * @return - <code>true</code>, если получилось удалить элемент, и <code>false</code> в противном случае или был передан null
-     */
-    public boolean delete(T item) {
-        if (item == null) {
-            return false;
-        }
-        int i = 0;
-        while (i < data.length) {
-            if (data[i] != null) {
-                if (data[i].equals(item)) {
-                    for (int j = i; j < data.length - 1; j++) {
-                        T temp = data[j];
-                        data[j] = data[j + 1];
-                        data[j + 1] = temp;
-                    }
-                    data = Arrays.copyOf(data, data.length - 1);
-                    return true;
-                }
-            }
-            i++;
-        }
-        return false;
-    }
+	/**
+	 * Метод удаления элемента из поля data
+	 *
+	 * @param item - удаляемый элемент
+	 * @return - <code>true</code>, если получилось удалить элемент, и <code>false</code> в противном случае или был передан null
+	 */
+	public boolean delete(T item) {
+		if (item == null) {
+			return false;
+		}
+		int i = 0;
+		while (i < data.length) {
+			if (item.equals(data[i])) {
+				return delete(i);
+			}
+			i++;
+		}
+		return false;
+	}
 
-    /**
-     * Метод сортировки данных
-     *
-     * @param comparator - обеъкт класса-"сравниватель"
-     */
-    public void sort(Comparator<T> comparator) {
-        for (int i = 0; i < data.length - 1; i++) {
-            for (int j = (data.length - 1); j > i; j--) {
-                if (comparator.compare(data[j - 1], data[j]) > 0) {
-                    T temp = data[j - 1];
-                    data[j - 1] = data[j];
-                    data[j] = temp;
-                }
-            }
-        }
-    }
+	/**
+	 * Метод сортировки данных
+	 *
+	 * @param comparator - обеъкт класса-"сравниватель"
+	 */
+	public void sort(Comparator<T> comparator) {
+		for (int i = 0; i < data.length - 1; i++) {
+			for (int j = (data.length - 1); j > i; j--) {
+				if (comparator.compare(data[j - 1], data[j]) > 0) {
+					T temp = data[j - 1];
+					data[j - 1] = data[j];
+					data[j] = temp;
+				}
+			}
+		}
+	}
 
 
-    @Override
-    public String toString() {
-        int numOfNull = 0;
-        T[] dataTemp = Arrays.copyOf(data, data.length);
-        for (int i = 0; i < dataTemp.length - numOfNull; i++) {
-            if (dataTemp[i] == null) {
-                numOfNull++;
-                for (int j = i; j < dataTemp.length - 1; j++) {
-                    T temp = dataTemp[j];
-                    dataTemp[j] = dataTemp[j + 1];
-                    dataTemp[j + 1] = temp;
-                }
-                i--;
-            }
-        }
-        dataTemp = Arrays.copyOf(dataTemp, dataTemp.length - numOfNull);
-        return Arrays.toString(dataTemp);
-    }
+	@Override
+	public String toString() {
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("[");
+		boolean comma = false;
 
-    /**
-     * Метод сортировки элементов
-     *
-     * @param container - переданный объект типа DataContainer
-     * @param <T>       - тип элементов данных
-     */
-    public static <T extends Comparable<T>> void sort(DataContainer<T> container) {
-        for (int i = 0; i < container.data.length - 1; i++) {
-            for (int j = (container.data.length - 1); j > i; j--) {
-                if (container.data[j - 1] == null) {
-                    continue;
-                }
-                if (container.data[j] == null || container.data[j - 1].compareTo(container.data[j]) > 0) {
-                    T temp = container.data[j - 1];
-                    container.data[j - 1] = container.data[j];
-                    container.data[j] = temp;
-                }
-            }
-        }
-    }
+		for (int i = 0; i < data.length; i++) {
+			if (data[i] != null) {
+				if (comma) {
+					strBuilder.append(", ");
+				}
+				strBuilder.append(data[i]);
+				comma = true;
+			}
+		}
+		strBuilder.append("]");
+		return strBuilder.toString();
+	}
 
-    /**
-     * Метод сортировки элементов
-     *
-     * @param container  - обеъкт класса-"сравниватель"
-     * @param comparator - переданный объект типа DataContainer
-     * @param <T>        - - тип элементов данных
-     */
-    public static <T> void sort(DataContainer<T> container, Comparator<T> comparator) {
-        for (int i = 0; i < container.data.length - 1; i++) {
-            for (int j = (container.data.length - 1); j > i; j--) {
-                if (comparator.compare(container.data[j - 1], container.data[j]) > 0) {
-                    T temp = container.data[j - 1];
-                    container.data[j - 1] = container.data[j];
-                    container.data[j] = temp;
-                }
-            }
-        }
-    }
+	/**
+	 * Метод сортировки элементов
+	 *
+	 * @param container - переданный объект типа DataContainer
+	 * @param <T>       - тип элементов данных
+	 */
+	public static <T extends Comparable<T>> void sort(DataContainer<T> container) {
+		for (int i = 0; i < container.data.length - 1; i++) {
+			for (int j = (container.data.length - 1); j > i; j--) {
+				if (container.data[j - 1] == null) {
+					continue;
+				}
+				if (container.data[j] == null || container.data[j - 1].compareTo(container.data[j]) > 0) {
+					T temp = container.data[j - 1];
+					container.data[j - 1] = container.data[j];
+					container.data[j] = temp;
+				}
+			}
+		}
+	}
 
-    @Override
-    public Iterator<T> iterator() {
-        return new MyIterator();
-    }
+	/**
+	 * Метод сортировки элементов
+	 *
+	 * @param container  - обеъкт класса-"сравниватель"
+	 * @param comparator - переданный объект типа DataContainer
+	 * @param <T>        - - тип элементов данных
+	 */
+	public static <T> void sort(DataContainer<T> container, Comparator<T> comparator) {
+		if (container != null && comparator != null) {
+			for (int i = 0; i < container.data.length - 1; i++) {
+				for (int j = (container.data.length - 1); j > i; j--) {
+					if (comparator.compare(container.data[j - 1], container.data[j]) > 0) {
+						T temp = container.data[j - 1];
+						container.data[j - 1] = container.data[j];
+						container.data[j] = temp;
+					}
+				}
+			}
+		}
+	}
 
-    /**
-     * Класс реализующий интерфейс Iterator
-     */
-    private class MyIterator implements Iterator<T> {
-        private int index = 0;
+	@Override
+	public Iterator<T> iterator() {
+		return new MyIterator();
+	}
 
-        @Override
-        public boolean hasNext() {
-            return (index < data.length && data[index] != null);
-        }
+	/**
+	 * Класс реализующий интерфейс Iterator
+	 */
+	private class MyIterator implements Iterator<T> {
+		private int index = 0;
 
-        @Override
-        public T next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            return data[index++];
-        }
-    }
+		@Override
+		public boolean hasNext() {
+			return index < data.length;
+		}
+
+		@Override
+		public T next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			return data[index++];
+		}
+	}
 }
