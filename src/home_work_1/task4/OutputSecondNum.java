@@ -13,38 +13,34 @@ public class OutputSecondNum {
         System.out.print("Input the third number: ");
         int numThird = in.nextInt(); // вводим третье число
 
-        // проверяем истинность, что numFirst больше чем numSecond. Если это правда идем во внутренний if
+        System.out.println(findAverageNumber(numFirst, numSecond, numThird));
+        in.close();
+    }
+
+    /**
+     * Метод нахождения среднего по величине значения
+     *
+     * @param numFirst  - первое число
+     * @param numSecond - второе число
+     * @param numThird  - третье число
+     * @return - возвращает строку со средним по величине числом
+     */
+    public static String findAverageNumber(int numFirst, int numSecond, int numThird) {
         if (numFirst > numSecond) {
-            //проверяем истинность, что numFirst меньше чем numThird
             if (numFirst < numThird) {
-                /* в случае истинности предыдущего выражения (numFirst < numThird), выведем,
-                   что numFirst второе по величине значение
-                 */
-                System.out.println("The number " + numFirst + " is the second largest number.");
-            // если предыдущее выражение окажется ложью, будем проверять numSecond больше чем numThird
+                return "The number " + numFirst + " is the second largest number.";
             } else if (numSecond > numThird) {
-                //если истина, что (numSecond > numThird), то выведем, что numSecond второе по величине значение
-                System.out.println("The number " + numSecond + " is the second largest number.");
+                return "The number " + numSecond + " is the second largest number.";
             } else
-                //иначе, если (numSecond > numThird) окажется ложью, то выведем, numThird второе по величине значение
-                System.out.println("The number " + numThird + " is the second largest number.");
-        /* если первое выражение (numFirst > numSecond) оказалось ложью, берем второе значение numSecond и стравнивниваем,
-           является оно меньше чем numThird
-         */
+                return "The number " + numThird + " is the second largest number.";
         } else if (numSecond < numThird) {
-            // если выражение (numSecond < numThird) истиннное, то выведем, что numSecond второе по величине значение
-            System.out.println("The number " + numSecond + " is the second largest number.");
-        //иначе, если (numSecond < numThird) окажется ложью, т е numSecond окажется самым большим числом
+            return "The number " + numSecond + " is the second largest number.";
         } else {
-            //останется выяснить, число numThird будет меньше чем numFirst
             if (numThird < numFirst) {
-                // если выражение (numThird < numFirst) будет истинным, выведем, что numFirst второе по величине значение
-                System.out.println("The number " + numFirst + " is the second largest number.");
-            // иначе, если выражение (numThird < numFirst) ложь, выведем, что numThird второе по величине значение
+                return "The number " + numFirst + " is the second largest number.";
             } else {
-                System.out.println("The number " + numThird + " is the second largest number.");
+                return "The number " + numThird + " is the second largest number.";
             }
         }
-        in.close();
     }
 }

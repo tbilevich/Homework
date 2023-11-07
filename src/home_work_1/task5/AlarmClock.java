@@ -7,37 +7,55 @@ public class AlarmClock {
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
+        System.out.print("Is it a weekday? (true/false) : ");
+        String weekday = in.nextLine(); // определяем рабочий ли день
+        System.out.print("Is it a vacation? (true/false) : ");
+        String vacation = in.nextLine(); //определяем отпуск это или нет
 
-        /* Для проверки ввода некорректных данных решила использовать конструкцию try-catch
-        Где в части try выполняется основной код, как только появляется ошибка InputMismatchException,
-        переходим в часть catch.
-        Эта ошибка может появиться при вводе данных, которые не входят в указанный тип данных byte
-         */
-        try {
-            System.out.print("Is it a weekday? (true/false) : ");
-            boolean weekday = in.nextBoolean(); // определяем рабочий ли день
-            System.out.print("Is it a vacation? (true/false) : ");
-            boolean vacation = in.nextBoolean(); //определяем отпуск это или нет
-
-            // обращаемся к методу sleepIn
-            if (sleepIn(weekday, vacation)) {
-                // если метод возвращает истинну, выводим сообщение, что можно дальше спать
-                System.out.println("You can continue to sleep.");
-                // если метод возвращает ложь
-            } else {
-                // выводим сообщение, что надо идти на работу
-                System.out.println("You need to go to work.");
-            }
-        } catch (InputMismatchException e) {
-            // выводим сообщение при некорректности ввода данных
-            System.out.println("Incorrect input data!");
-        }
+        System.out.println(printSleepOrNot(weekday, vacation));
         in.close();
     }
-    /* создаем метод, который будет определять отпуск или выходной день.
-    При истине одного из значений будет возвращать true
+
+    /**
+     * Метод парсинга строки
+     * @param str - вводимое булеан занчение в виде строки
+     * @return - возвращает булеан значение, в противном случа эксепшн
      */
-    static boolean sleepIn(boolean weekday, boolean vacation) {
+    private static boolean parseToBoolean(String str) {
+        if ("true".equalsIgnoreCase(str) || "false".equalsIgnoreCase(str)) {
+            return Boolean.parseBoolean(str);
+        }
+        throw new InputMismatchException();
+    }
+
+    /**
+     * Метод определения выходного дня
+     * @param weekday - параметр, является ли день рабочим
+     * @param vacation - параметр, является ли день выходным
+     * @return - <code>true</code>, если выходной день, и <code>false</code> в противном случае
+     */
+    private static boolean sleepIn(boolean weekday, boolean vacation) {
         return vacation || !weekday;
+    }
+
+    /**
+     * Метод определяющий возможность продолжения сна
+     * @param weekdayStr - параметр, является ли день рабочим
+     * @param vacationStr - параметр, является ли день выходным
+     * @return - возвращает сообщение о возможности продолжения сна
+     */
+    public static String printSleepOrNot(String weekdayStr, String vacationStr) {
+        try {
+            boolean weekday = parseToBoolean(weekdayStr);
+            boolean vacation = parseToBoolean(vacationStr);
+
+            if (sleepIn(weekday, vacation)) {
+                return "You can continue to sleep.";
+            } else {
+                return "You need to go to work.";
+            }
+        } catch (InputMismatchException e) {
+            return "Incorrect input data!";
+        }
     }
 }

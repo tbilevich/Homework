@@ -8,29 +8,34 @@ public class LetterOrSymbol {
 
         Scanner in = new Scanner(System.in);
         System.out.print("Введите число: ");
-        int num = in.nextInt(); // вводим число
+        String num = in.nextLine(); // вводим число
 
-        // преобразуем тип INT в тип CHAR, в котором определенное число соответствует определенному символу
-        char symbol = (char) num;
-        /* Для проверки ввода некорректных данных решила использовать конструкцию try-catch
-        Где в части try выполняется основной код, как только появляется ошибка InputMismatchException,
-        переходим в часть catch.
-        Эта ошибка может появиться при вводе данных, которые не входят в указанный тип данных int
-         */
+        System.out.println(checkLetterOrSymbol(num));
+        in.close();
+    }
+
+    /**
+     * Метод определения буквы или символа по числу
+     * @param str - введенное число в виде строки
+     * @return - возвращает строки значение числа
+     */
+    public static String checkLetterOrSymbol(String str) {
         try {
+            int num = Integer.parseInt(str);
+            if (num < 0) {
+                return "Число должно быть положительным.";
+            }
+            char symbol = (char) num;
             // проверяем, что число попало в промежутки [65;90] и [97;122]
             if ((num > 64 && num < 91) || (num > 96 && num < 123)) {
-                //если истинно, то выводим сообщение, что число num соответствует определенной англ букве
-                System.out.printf("Число %d, обозначающее код аглийской буквы %c по таблице ASCII", num, symbol);
-                //иначе, если ложь
-            } else {
-                // выводим сообщение, что число num соответствует определенной символу
-                System.out.printf("Число %d, обозначающее код символ %c по таблице ASCII", num, symbol);
+                return "Число " + num + ", обозначающее код аглийской буквы " + symbol + " по таблице ASCII";
+            } else if (num > 127) {
+                return "Число " + num + ", обозначающее код символа " + symbol + " по системе международной кодировки Unicode";
+            }else {
+                return "Число " + num + ", обозначающее код символа " + symbol + " по таблице ASCII";
             }
-        } catch (InputMismatchException e) {
-            // выводим сообщение при некорректности ввода данных
-            System.out.println("Incorrect input data!");
+        } catch (NumberFormatException e) {
+            return "Введенны некорректные данные!";
         }
-        in.close();
     }
 }
