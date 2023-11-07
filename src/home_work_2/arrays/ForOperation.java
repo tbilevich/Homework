@@ -26,8 +26,6 @@ public class ForOperation implements IArraysOperation {
             int element = container[i];
             str += element + " ";
         }
-        str += "  ";
-
         return str;
     }
 
@@ -51,8 +49,6 @@ public class ForOperation implements IArraysOperation {
         for (i = 1; i < container.length; i += 2) {
             str += container[i] + " ";
         }
-        str += "  ";
-
         return str;
     }
 
@@ -76,8 +72,6 @@ public class ForOperation implements IArraysOperation {
         for (i = container.length - 1; i >= 0; i--) {
             str += container[i] + " ";
         }
-        str += "  ";
-
         return str;
     }
 }

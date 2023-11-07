@@ -10,42 +10,14 @@ import java.util.Scanner;
  */
 
 public class Factorial {
-    public static void main(String[] args) {
-
-        // Задаем с консоли число
-        Scanner in = new Scanner(System.in);
-        System.out.print("Input a number: ");
-
-        // Валидация введеных данных на принадлежность к типу Int
-        if (!in.hasNextInt()) {
-            System.out.println("Incorrect input data!");
-            System.exit(0); // если не число, выходим из программы
-        }
-        int num = in.nextInt();
-
-        // Проверка, что введеное число > 0
-        if (num <= 0) {
-            System.out.println("You entered a negative number or 0!");
-            System.exit(0); // если < 0, выходим из программы
-        }
-
-        // Вывод результата вызываемого метода
-        System.out.printf("%d! is  %s %s \n", num, print(num), factorialOfNum(num));
-
-        if (recursionFactorial(num) == 0) {
-            System.out.printf("%d! is  %s The result beyonds the Integer range!", num, print(num));
-        } else {
-            System.out.printf("%d! is  %s %s ", num, print(num), recursionFactorial(num));
-        }
-    }
 
     /**
      * Метод высчитывает факториал числа
      *
      * @param num - введенное с консоли число
-     * @return - возвращает строку равную факториалу числа
+     * @return - возвращает строку равную факториалу числа, в противном случае сообщение об ошибке
      */
-    public static String factorialOfNum(int num) {
+    private static String factorialOfNum(int num) {
         int i;
         long result = 1;
         String str = "";
@@ -70,7 +42,7 @@ public class Factorial {
      * @return - возвращает строку примера факторала
      */
 
-    public static String print(int num) {
+    private static String printExpression(int num) {
         String str = "";
         int i;
 
@@ -82,7 +54,7 @@ public class Factorial {
                 str += i;
             }
         }
-        str += " ="; // Добавляем к уже свормированной строке =
+        str += " = "; // Добавляем к уже свормированной строке =
         return str;
     }
 
@@ -93,7 +65,7 @@ public class Factorial {
      * @return - возвращает число равное факториалу числа
      */
 
-    public static long recursionFactorial(int num) {
+    private static long recursionFactorial(int num) {
         long result = 1;
 
         // Когда число num, при вызове рекурсии, достигрет 1, остановим метод
@@ -107,5 +79,40 @@ public class Factorial {
             return 0; // Если переполнение, возвращаем 0
         }
         return result;
+    }
+
+    /**
+     * Метод печати примера факториала
+     *
+     * @param num - заданное число
+     * @return - возвращает строку примера факториала, в противном случае сообщение об ошибке
+     */
+    public static String printLoop(int num) {
+
+        if (num < 0) {
+            return "You entered a negative number!";
+        } else if (num == 0) {
+            return "0! is 1";
+        }
+        return num + "! is  " + printExpression(num) + factorialOfNum(num);
+    }
+
+    /**
+     * Метод печати примера факториала, вычисляемого при помощи рекурсии
+     *
+     * @param num - заданное число
+     * @return - возвращает строку примера факториала, в противном случае сообщение об ошибке
+     */
+    public static String printRecursion(int num) {
+
+        if (num < 0) {
+            return "You entered a negative number!";
+        } else if (num == 0) {
+            return "0! is 1";
+        } else if (recursionFactorial(num) == 0) {
+            return num + "! is  " + printExpression(num) + "The result beyonds the Integer range!";
+        } else {
+            return num + "! is  " + printExpression(num) + recursionFactorial(num);
+        }
     }
 }

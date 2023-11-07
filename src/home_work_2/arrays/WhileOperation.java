@@ -25,8 +25,6 @@ public class WhileOperation implements IArraysOperation {
             str += element + " ";
             i++;
         }
-        str += "  ";
-
         return str;
     }
 
@@ -50,8 +48,6 @@ public class WhileOperation implements IArraysOperation {
             str += container[i] + " ";
             i += 2;
         }
-        str += "  ";
-
         return str;
     }
 
@@ -76,8 +72,6 @@ public class WhileOperation implements IArraysOperation {
             str += container[i] + " ";
             i--;
         }
-        str += "  ";
-
         return str;
     }
 }

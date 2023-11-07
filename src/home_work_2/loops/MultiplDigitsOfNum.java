@@ -12,18 +12,6 @@ import java.util.Scanner;
  */
 
 public class MultiplDigitsOfNum {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.print("Input a number: ");
-        String strValue = in.nextLine();// Ввод числа с консоли
-
-        // Вызов метода валидации введенной строки
-        if (!validation(strValue)) {
-            System.exit(0); // Завершаем программу
-        }
-
-        System.out.println(strValue.replace("", " ").trim().replace(" ", " * ") + " = " + multiplDigits(strValue));
-    }
 
     /**
      * Метод валидации введенных данных
@@ -31,7 +19,7 @@ public class MultiplDigitsOfNum {
      * @param strValue - введенная с консоли строка
      * @return <code>true</code>, если строка является числом, и <code>false</code> в противном случае
      */
-    public static boolean validation(String strValue) {
+    public static String print(String strValue) {
         int i;
         boolean hasLetter = false;
         boolean hasDot = false;
@@ -48,24 +36,21 @@ public class MultiplDigitsOfNum {
             }
         }
         if (hasLetter) { // Если в строке есть буквы
-            System.out.println("There was inputed not number!");
-            return false;
+            return "There was inputed not number!";
         } else if (hasDot) { // Если в строке есть точки
             if (counterDot > 1) { // Если точек в строке больше, чем одна
-                System.out.println("There was inputed not number!");
-                return false;
+                return "There was inputed not number!";
             } else if (strValue.charAt(strValue.length() - 1) == '.' || strValue.charAt(0) == '.') { // Если точка в строке последняя или первая
-                System.out.println("There was inputed not number!");
-                return false;
+                return "There was inputed not number!";
+            } else if (strValue.charAt(0) == '0' && strValue.charAt(1) != '.') {
+                return "There was inputed not number!";
             } else { // Если в строке только одна точка
-                System.out.println("There was inputed not integer!");
-                return false;
+                return "There was inputed not integer!";
             }
         } else if (strValue.charAt(0) == '0') { // Если строка начинается на 0
-            System.out.println("There was inputed not number!");
-            return false;
+            return "There was inputed not number!";
         }
-        return true;
+        return strValue.replace("", " ").trim().replace(" ", " * ") + " = " + multiplDigits(strValue);
     }
 
     /**
@@ -74,7 +59,7 @@ public class MultiplDigitsOfNum {
      * @param str - введенная с консоли строка
      * @return - число произведения всех цифр числа
      */
-    public static int multiplDigits(String str) {
+    private static int multiplDigits(String str) {
         int result = 1;
         int digit = 0;
         int num = Integer.parseInt(str); // Переводим строку в число

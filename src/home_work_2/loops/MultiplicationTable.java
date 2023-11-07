@@ -58,7 +58,7 @@ public class MultiplicationTable {
      * @param multiplier2 - второй множитель
      * @param result      - результат произведения двух чисел
      */
-    public static void print(int multiplier1, int multiplier2, int result) {
+    private static void print(int multiplier1, int multiplier2, int result) {
         // Формируем строку в зависимости от длины примера умножения двух чисел. При недостаточной длине добавляем пробелы, используя тернарный оператор
         String res = String.format("%d * %d %s=%s %d", multiplier1, multiplier2, (multiplier2 == 10 ? "" : " "), (result > 9 ? "" : " "), result);
         System.out.printf("%s     ", res);

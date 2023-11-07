@@ -88,7 +88,7 @@ public class ArrayTaskForDoc {
         for (int i = 0; i < container.length; i++) {
             sum += container[i];
         }
-        int arithmeticMean = sum / container.length; // Вычисление среднего арифметического
+        double arithmeticMean = 1.0 * sum / container.length; // Вычисление среднего арифметического
         String strElLessArithmMean = "";
 
         // Формирование строки из элементов массива, которые меньше среднего арифметического
@@ -104,12 +104,16 @@ public class ArrayTaskForDoc {
      * Метод нахождения двух наименьших (минимальных) элемента массива
      *
      * @param container - созданный рандомно массив
-     * @return
+     * @return - возвращает строку, состоящую из двух наименьших элементов массива
      */
     public static String findTwoMinEl(int[] container) {
         String strTwoMinEl = "";
         int min = MAX_VALUE_EXCLUSION;
         int index = 0;
+
+        if (container.length < 2) {
+            return "The array have to contain two or more elements.";
+        }
 
         // Нахождение минимального значения масива и запоминание его индекса
         for (int i = 0; i < container.length; i++) {
@@ -136,7 +140,7 @@ public class ArrayTaskForDoc {
      * @param container - созданный рандомно массив
      * @return - возращаем получившийся массив в виде строки
      */
-    public static String removeElArrFromRange(int[] container) {
+    private static String removeElArrFromRange(int[] container) {
         Scanner in = new Scanner(System.in);
         System.out.print("Input min element of range: ");
 
@@ -153,6 +157,18 @@ public class ArrayTaskForDoc {
         }
         int maxElOfRange = in.nextInt(); // Ввод максимального значения интервала
 
+        return removeElArrFromRange(container, minElOfRange, maxElOfRange);
+    }
+
+    /**
+     * Метод сжатия массива, удалив элементы, принадлежащие интервалу
+     *
+     * @param container - созданный рандомно массив
+     * @param minElOfRange - минимальное значение интервала
+     * @param maxElOfRange - максимальное значение интервала
+     * @return - возращаем получившийся массив в виде строки
+     */
+    public static String removeElArrFromRange(int[] container, int minElOfRange, int maxElOfRange) {
         // Проверка валидности заданного интервала
         if (minElOfRange > maxElOfRange) {
             return "Incorrect input data!";

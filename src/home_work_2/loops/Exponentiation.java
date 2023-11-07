@@ -1,6 +1,7 @@
 package home_work_2.loops;
 
 
+import javax.sound.midi.Soundbank;
 import java.util.Scanner;
 
 /**
@@ -11,28 +12,6 @@ import java.util.Scanner;
  * 1.3.2 Пример: Ввели 7.5 и 2, должно получиться в консоли: 7.5 ^ 2 = 56.25
  */
 public class Exponentiation {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.print("Input the first number: ");
-
-        // Валидация введенного числа на принадлежность к типу Double
-        if (!in.hasNextFloat()) {
-            System.out.println("Incorrect input data!");
-            System.exit(0); // Если не число, выходим из программы
-        }
-        float num = in.nextFloat(); // Ввод числа с консоли
-        in.nextLine(); // Для считывания следующей введенной строки
-        System.out.print("Input a degree of a number: ");
-        String degree = in.nextLine(); // Ввод числа в виде строки с консоли
-
-        // Вызов метода валидации на проверку принадлежности введенного числа к натуральным числам
-        if (naturalNumber(degree)) {
-            System.out.println("Inccorect input data!");
-            System.exit(0); // Выход из программы
-        }
-
-        System.out.printf("%f ^ %s = %f", num, degree, resultOfExponentiation(num, Integer.parseInt(degree)));
-    }
 
     /**
      * Метод проверки принадлежности числа к натуральным
@@ -40,19 +19,26 @@ public class Exponentiation {
      * @param str - введеная с консоли строка
      * @return - <code>true</code>, если строка не является числом, и <code>false</code> в противном случае
      */
-    public static boolean naturalNumber(String str) {
+    private static boolean naturalNumber(String str) {
         boolean hasNotDigit = false;
 
         // Цикл проверяет содержит ли строка что-нибудь кроме цифр
         for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
+            if (!Character.isDigit(str.charAt(i)) || str.charAt(0) == '0') {
                 hasNotDigit = true;
             }
         }
         return hasNotDigit;
     }
 
-    public static float resultOfExponentiation(float num, int degree) {
+    /**
+     * Метод возведения в степень
+     *
+     * @param num    - основание числа, возводимого в степень
+     * @param degree - степень числа
+     * @return - возвращает число, результат возведения числа в степень
+     */
+    private static float resultOfExponentiation(float num, int degree) {
         int i = 1;
         float result = 1F;
 
@@ -62,5 +48,20 @@ public class Exponentiation {
             i++;
         }
         return result;
+    }
+
+    /**
+     * Метод печати примера
+     *
+     * @param num    - основание числа, возводимого в степень
+     * @param degree - степень числа
+     * @return - возвращает строку примера, в противном случае сообщение об ошибке
+     */
+    public static String print(float num, String degree) {
+
+        if (naturalNumber(degree)) {
+            return "Inccorect input data!";
+        }
+        return num + " ^ " + degree + " = " + resultOfExponentiation(num, Integer.parseInt(degree));
     }
 }

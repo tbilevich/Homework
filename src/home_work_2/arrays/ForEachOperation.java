@@ -23,8 +23,6 @@ public class ForEachOperation implements IArraysOperation {
         for (int element : container) {
             str += element + " ";
         }
-        str += "  ";
-
         return str;
     }
 
@@ -51,7 +49,6 @@ public class ForEachOperation implements IArraysOperation {
             }
             i++;
         }
-        str += "  ";
         return str;
     }
 
@@ -76,8 +73,7 @@ public class ForEachOperation implements IArraysOperation {
             reversedArray[j] = element + "";
             j--;
         }
-        str += String.join(" ", reversedArray) + "  "; // Формирование строки полученного при помощи цикла foreach массива
-
+        str += String.join(" ", reversedArray) + " "; // Формирование строки полученного при помощи цикла foreach массива
         return str;
     }
 }

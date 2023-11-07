@@ -14,80 +14,6 @@ import java.util.Scanner;
  */
 
 public class TasksFromDoc {
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.print(" Input a number: ");
-        String number = in.nextLine();
-
-        // Вызов метода валидации на проверку принадлежности введенного числа к натуральным числам
-        if (naturalNumber(number)) {
-            System.out.println("Inccorect input data!");
-            System.exit(0); // Выход из программы
-        }
-
-        System.out.println("1.5.1");
-        System.out.println(" Max digit of the number is " + maxDigit(number)); // Вывод результата метода maxDigit
-
-        System.out.println("1.5.2");
-        System.out.println(" Probability of even numbers is " + probabilityEvenNum() + "%"); // Вывод результата метода probabilityEvenNum
-
-        System.out.println("1.5.3");
-        int counterOddNum = number.length() - counterEvenAndOddNum(number); // Подсчет нечетных цифр числа
-        System.out.printf(" The number %s consist of %d even digits and %d odd digits \n", number, counterEvenAndOddNum(number), counterOddNum); // Вывод результата метода counterEvenAndOddNum
-
-        System.out.println("1.5.4");
-        System.out.print(" Input a number of elements of Fibonacci series: ");
-
-        // Проверка принадлежности введенного числа к типу Int
-        if (!in.hasNextInt()) {
-            System.out.println("Inccorect input data!");
-            System.exit(0); // Выход из программы
-        }
-        int numberOfElem = in.nextInt();
-        // Проверка, что введенное число > 0
-        if (numberOfElem > 0) {
-            System.out.printf(" Fibonacci series from %d elements: %s\n", numberOfElem, fibonacciSeries(numberOfElem)); // Вывод результата метода fibonacciSeries
-        } else {
-            System.out.println(" Incorrect input data!");
-        }
-
-        System.out.println("1.5.5");
-        System.out.print(" Input a min number: ");
-
-        // Проверка принадлежности введенного числа к типу Int
-        if (!in.hasNextInt()) {
-            System.out.println("Inccorect input data!");
-            System.exit(0); // Выход из программы
-        }
-        int min = in.nextInt();
-        System.out.print(" Input a max number: ");
-
-        // Проверка принадлежности введенного числа к типу Int
-        if (!in.hasNextInt()) {
-            System.out.println("Inccorect input data!");
-            System.exit(0); // Выход из программы
-        }
-        int max = in.nextInt();
-        System.out.print(" Input an increments: ");
-
-        // Проверка принадлежности введенного числа к типу Int
-        if (!in.hasNextInt()) {
-            System.out.println("Inccorect input data!");
-            System.exit(0); // Выход из программы
-        }
-        int incr = in.nextInt();
-
-        // Проверка валидности введенных данных
-        if (min < max && incr > 0) {
-            System.out.printf(" A series of numbers in the range [ %d; %d ] in increments %d : %s\n", min, max, incr, rowWithIncrements(min, max, incr)); // Вывод результата метода rowWithIncrements
-        } else {
-            System.out.println(" Incorrect input data!");
-        }
-
-        System.out.println("1.5.6");
-        System.out.printf("If write the number %s backwards, get %s \n", number, numberReversal(number)); // Вывод результата метода numberReversal
-
-    }
 
     /**
      * Метод поиска наибольшей цифры натурального числа
@@ -95,16 +21,14 @@ public class TasksFromDoc {
      * @param number - введенное число в виде строки
      * @return - возвращает наибольшую цифру числа
      */
-    public static int maxDigit(String number) {
-        int num = Integer.parseInt(number); // Перевод строки в число
+    private static int maxDigit(String number) {
+        int num = Integer.parseInt(number);
         int digit = 0;
         int max = 0;
 
-        // Разбиваем число на цифры
         while (num > 9) {
             digit = num % 10;
 
-            // Нахождение максимальной цифры
             if (digit > max) {
                 max = digit;
                 num /= 10;
@@ -112,8 +36,6 @@ public class TasksFromDoc {
                 num /= 10;
             }
         }
-
-        // Проверка первой цифры числа на максимальность
         if (digit > max) {
             max = digit;
         }
@@ -121,55 +43,108 @@ public class TasksFromDoc {
     }
 
     /**
+     * Метод печати сообщения о маскимальной цифры числа
+     *
+     * @param number - заданное число
+     * @return - возвращает сообщение о максимальной цифре числа, в противном случае сообщение об ошибке
+     */
+    public static String maxDigitPrint(String number) {
+        if (naturalNumber(number)) {
+            return "Inccorect input data!";
+        }
+        return "Max digit of the number is " + maxDigit(number);
+    }
+
+    /**
      * Метод вероятности четных случайных чисел
      *
      * @return - возращает вероятность четных чисел
      */
-    public static double probabilityEvenNum() {
+    public static double probabilityEvenNum(int num) {
         Random rndm = new Random();
-        int counter = 0; // Счетчик четных чисел
-        int number;
+
+        if (num == 0) {
+            return 0;
+        }
 
         // В цикле генерируются 1000 чисел от 0 до 99
-        for (int i = 0; i < 1000; i++) {
-            number = rndm.nextInt(100);
+        int[] arr = new int[num];
+        for (int i = 0; i < num; i++) {
+            arr[i] = rndm.nextInt(100);
+        }
+        return probabilityEvenNum(arr);
+    }
 
-            // Проверка четности числа
+    /**
+     * Метод вероятности четных чисел для заданного массива
+     *
+     * @return - возращает вероятность четных чисел
+     */
+    public static double probabilityEvenNum(int[] arr) {
+        int counter = 0;
+        int number;
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        for (int j : arr) {
+            number = j;
+
             if (number % 2 == 0) {
                 counter++;
             }
         }
-        double result = 1.0 * (counter * 100) / 1000; // Формула высчитывания вероятности
-        return result;
+        return 1.0 * (counter * 100) / arr.length;
     }
 
     /**
-     * Метод посчета четные и нечетные цифры числа
+     * Метод печати сообщения вероятности четных чисел в массиве
+     *
+     * @return - возвращает сообщение вероятности четных чисел в массиве
+     */
+    public static String probabilityEvenNumPrint() {
+        return "Probability of even numbers is " + probabilityEvenNum(1000) + "%";
+    }
+
+    /**
+     * Метод посчета четных и нечетных цифр числа
      *
      * @param number - введенное с консоли число
      * @return - возвращает количество четных цифр числа
      */
-    public static int counterEvenAndOddNum(String number) {
+    private static int counterEvenAndOddNum(String number) {
         int num = Integer.parseInt(number); // Переводим строку в число
         int counterEvenNum = 0; // Счетчик четных цифр
         int digit = 0;
 
-        // Разбиваем число на цифры
         while (num > 9) {
             digit = num % 10;
 
-            // Проверка четности цифры
             if (digit % 2 == 0) {
                 counterEvenNum++;
             }
             num /= 10;
         }
 
-        // Проверка первой цифры на четность
         if (num % 2 == 0) {
             counterEvenNum++;
         }
         return counterEvenNum;
+    }
+
+    /**
+     * Метод печати сообщения о количестве четных и нечетных цифр в числе
+     *
+     * @param number - заданное число
+     * @return - возвращает сообщение о количестве четных и нечетных цифр в числе, в противном случае сообщение об ошибке
+     */
+    public static String counterEvenAndOddNumPrint(String number) {
+        if (naturalNumber(number)) {
+            return "Inccorect input data!";
+        }
+        int counterOddNum = number.length() - counterEvenAndOddNum(number);
+        return "The number " + number + " consist of " + counterEvenAndOddNum(number) + " even digits and " + counterOddNum + " odd digits";
     }
 
     /**
@@ -178,7 +153,7 @@ public class TasksFromDoc {
      * @param numberOfElem - введенное с консоли число количества элементов ряда Фибоначчи
      * @return - возвращает ряд Фибоначчи
      */
-    public static String fibonacciSeries(int numberOfElem) {
+    private static String fibonacciSeries(int numberOfElem) {
         String fibonya = "";
         int firstTerm = 1;
         int secondTerm = 1;
@@ -205,6 +180,19 @@ public class TasksFromDoc {
     }
 
     /**
+     * Метод печати ряда Фибоначчи
+     *
+     * @param numberOfElem - количество элесентов ряда Фибоначчи
+     * @return - возвращает ряд Фибоначчи в виде строки, в противном случае сообщение об ошибке
+     */
+    public static String fibonacciSeriesPrint(int numberOfElem) {
+        if (numberOfElem > 0) {
+            return "Fibonacci series from " + numberOfElem + " elements: " + fibonacciSeries(numberOfElem); // Вывод результата метода fibonacciSeries
+        }
+        return "Incorrect input data!";
+    }
+
+    /**
      * Метод вывода ряда чисел в диапазоне с шагом
      *
      * @param min  - минимальное значеное диапазона
@@ -212,14 +200,12 @@ public class TasksFromDoc {
      * @param incr - значение шага
      * @return - возвращает ряд чисел в диапазоне с шагом в виде строки
      */
-    public static String rowWithIncrements(int min, int max, int incr) {
+    private static String rowWithIncrements(int min, int max, int incr) {
         String seriesOfNum = (min + " ");
 
-        // В Цикле формируем строку ряда числел
         while (min <= max) {
             min += incr;
 
-            // Проверка выхода из диапазона
             if (min <= max) {
                 seriesOfNum += (min + " ");
             }
@@ -228,24 +214,51 @@ public class TasksFromDoc {
     }
 
     /**
+     * Метод печати ряда элементов из интервала с заданным шагом
+     *
+     * @param min  - минимальное значение интервала
+     * @param max  - максимальное значение интервала
+     * @param incr - значение шага
+     * @return - возвращает ряд элементов в виде строки, в противном случае сообщение об ошибке
+     */
+    public static String rowWithIncrementsPrint(int min, int max, int incr) {
+        if (min < max && incr > 0) {
+            return "A series of numbers in the range [ " + min + "; " + max + " ] in increments " + incr + " : " + rowWithIncrements(min, max, incr);
+        }
+        return "Incorrect input data!";
+    }
+
+    /**
      * Метод переворота числа
      *
      * @param num - введеное с консоли число
      * @return - возвращает перевернутое число в виде строки
      */
-    public static String numberReversal(String num) {
-        int numParse = Integer.parseInt(num); // Перевод строки в число
+    private static String numberReversal(String num) {
+        int numParse = Integer.parseInt(num);
         String str = "";
         int digit = 0;
 
-        // В цикле разбиваем число на цифры и записываем в строку
         while (numParse > 9) {
             digit = numParse % 10;
             str += digit;
             numParse /= 10;
         }
-        str += numParse; // Добавляем в строку первую цифру числа
+        str += numParse;
         return str;
+    }
+
+    /**
+     * Метод печати числа наоборот
+     *
+     * @param number - заданное число
+     * @return - возвращает сообщение о числе наоборот, в противном случае сообщение об ошибке
+     */
+    public static String numberReversalPrint(String number) {
+        if (naturalNumber(number)) {
+            return "Inccorect input data!";
+        }
+        return "If write the number " + number + " backwards, get " + numberReversal(number);
     }
 
     /**
@@ -254,12 +267,11 @@ public class TasksFromDoc {
      * @param str - введеная с консоли строка
      * @return - <code>true</code>, если строка не является числом или вещественным числом, и <code>false</code> в противном случае
      */
-    public static boolean naturalNumber(String str) {
+    private static boolean naturalNumber(String str) {
         boolean hasNotDigit = false;
 
-        // Цикл проверяет содержит ли строка что-нибудь кроме цифр
         for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
+            if (!Character.isDigit(str.charAt(i)) || str.charAt(0) == '0') {
                 hasNotDigit = true;
             }
         }
