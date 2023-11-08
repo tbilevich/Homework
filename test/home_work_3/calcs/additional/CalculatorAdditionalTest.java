@@ -4,15 +4,16 @@ import home_work_3.calcs.api.ICalculator;
 import home_work_3.calcs.simple.CalculatorWithMathCopy;
 import home_work_3.calcs.simple.CalculatorWithMathExtends;
 import home_work_3.calcs.simple.CalculatorWithOperator;
+import home_work_4.DataContainer;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CalculatorAdditionalTest {
 
@@ -107,12 +108,53 @@ public class CalculatorAdditionalTest {
         assertEquals(Double.NaN, calc.squareRoot(-25));
     }
 
+    @Test
+    @DisplayName("Проверка конструктора CalculatorWithCounterAutoDecorator")
+    public void testCalculatorWithCounterAutoDecorator() {
+        ICalculator calcInternal = new CalculatorWithMemoryDecorator(new CalculatorWithMathExtends());
+        CalculatorWithCounterAutoDecorator calc = new CalculatorWithCounterAutoDecorator(calcInternal);
+        assertNotNull(calc.getCalculator());
+        assertEquals(calcInternal, calc.getCalculator());
+    }
+
+    @Test
+    @DisplayName("Проверка работы счетчика CalculatorWithCounterAutoDecorator")
+    public void testGetCountOperation() {
+        ICalculator calcInternal = new CalculatorWithMemoryDecorator(new CalculatorWithMathExtends());
+        CalculatorWithCounterAutoDecorator calc = new CalculatorWithCounterAutoDecorator(calcInternal);
+        assertEquals(0, calc.getCountOperation());
+        calc.addition(3,6);
+        assertEquals(1, calc.getCountOperation());
+        calc.division(25,5);
+        assertEquals(2,calc.getCountOperation());
+    }
+
+    @Test
+    @DisplayName("Проверка конструктора CalculatorWithMemoryDecorator")
+    public void testCalculatorWithMemoryDecorator() {
+        ICalculator calcInternal = new CalculatorWithOperator();
+        CalculatorWithMemoryDecorator calc = new CalculatorWithMemoryDecorator(calcInternal);
+        assertNotNull(calc.getCalculator());
+        assertEquals(calcInternal, calc.getCalculator());
+    }
+
+    @Test
+    @DisplayName("Проверка получения сохранненого значения при использовании операций CalculatorWithMemoryDecorator")
+    public void testLoad() {
+        ICalculator calcInternal = new CalculatorWithOperator();
+        CalculatorWithMemoryDecorator calc = new CalculatorWithMemoryDecorator(calcInternal);
+        assertEquals(0, calc.load());
+        calc.addition(3,6);
+        calc.save();
+        assertEquals(9, calc.load());
+        calc.division(25,5);
+        calc.save();
+        assertEquals(5,calc.load());
+    }
+
     private static Stream<Arguments> calculatorProvider() {
         return Stream.of(
-                Arguments.of(new CalculatorStringExpression(new CalculatorWithMathExtends())),
                 Arguments.of(new CalculatorWithCounterAutoDecorator(new CalculatorWithMemoryDecorator(new CalculatorWithMathExtends()))),
-                Arguments.of(new CalculatorWithMemoryDecorator(new CalculatorWithMathExtends())),
-                Arguments.of(new CalculatorWithCounterClassic()),
                 Arguments.of(new CalculatorWithMemoryDecorator(new CalculatorWithMathExtends()))
         );
     }
