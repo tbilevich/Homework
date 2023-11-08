@@ -4,15 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LeapYear {
-    public static void main(String[] args) {
-
-        Scanner in = new Scanner(System.in);
-        System.out.print("Input a year: ");
-        String year = in.nextLine(); // вводим число
-
-        System.out.println(defineLeapYear(year));
-        in.close();
-    }
 
     /**
      * Метод определения високосного года

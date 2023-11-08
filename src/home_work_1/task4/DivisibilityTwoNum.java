@@ -3,17 +3,6 @@ package home_work_1.task4;
 import java.util.Scanner;
 
 public class DivisibilityTwoNum {
-    public static void main(String[] args) {
-
-        Scanner in = new Scanner(System.in);
-        System.out.print("Input the first number: ");
-        int numFirst = in.nextInt(); // вводим первое число
-        System.out.print("Input the second number: ");
-        int numSecond = in.nextInt(); //вводим второе число
-
-        System.out.println(divisibilityCheck(numFirst, numSecond));
-        in.close();
-    }
 
     /**
      * Метод проверки делимости двух чисел

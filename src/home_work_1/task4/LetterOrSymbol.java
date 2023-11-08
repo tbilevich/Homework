@@ -4,15 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LetterOrSymbol {
-    public static void main(String[] args) {
-
-        Scanner in = new Scanner(System.in);
-        System.out.print("Введите число: ");
-        String num = in.nextLine(); // вводим число
-
-        System.out.println(checkLetterOrSymbol(num));
-        in.close();
-    }
 
     /**
      * Метод определения буквы или символа по числу

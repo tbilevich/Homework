@@ -4,23 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConvertingBToKB {
-    public static void main(String[] args) {
-
-        Scanner in = new Scanner(System.in);
-
-        try {
-            System.out.print("Input the number of units of information: ");
-            int num = in.nextInt(); // вводим число
-            in.nextLine();
-            System.out.print("Select in which units of measurement you specified the number. Input 'byte' or 'Kbyte': ");
-            String unitOfMeasure = in.nextLine(); // вводим единицы измерения
-
-            System.out.println(print(num, unitOfMeasure));
-        } catch (InputMismatchException e) {
-            System.out.println("The entered number does not belong to the type Integer.");
-        }
-        in.close();
-    }
 
     /**
      * Метод перевода байтов в килобайты
