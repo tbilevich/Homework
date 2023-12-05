@@ -1,0 +1,10 @@
+package api:
+		3.1 ISearchEngine
+package search:
+		4.1 EasySearch
+		4.2 RegExSearch 
+		4.3 SearchEnginePunctuationNormalizer
+		5.1 SearchOfSpecificWords
+package utils:
+		2.  TextUtils
+		7.  FileUtils
