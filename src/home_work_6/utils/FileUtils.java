@@ -11,11 +11,11 @@ public class FileUtils {
     /**
      * Метод чтения файлов из папки
      *
-     * @param pathname - путь к папке с книгами
+     * @param pathName - путь к папке с книгами
      * @return - возвращает список книг
      */
-    public static List<String> folderWithBooks(Path pathname) {
-        File folder = new File(pathname.toUri());
+    public static List<String> folderWithBooks(Path pathName) {
+        File folder = new File(pathName.toUri());
 
         if (folder.exists()) {
             File[] books = folder.listFiles();
@@ -45,19 +45,26 @@ public class FileUtils {
     /**
      * Метод записи в файл данных поиска
      *
-     * @param bookName      - имя используемой книги
-     * @param searchedValue - искомое значение
-     * @param count         - количество повторений искомого значения
+     * @param str - строка для записи в файл
      */
-    public static void writeFile(String bookName, String searchedValue, long count) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("result.txt", true));
-            writer.write("Book: " + bookName + "; the searched word: " + searchedValue + " = " + count);
+    public static void writeToFile(String str) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("result.txt", true));) {
+            writer.write(str);
             writer.newLine();
             writer.flush();
-            writer.close();
         } catch (IOException e) {
             throw new RuntimeException("File writing error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Метод вывода содержимого файла в консоль
+     */
+    public static void printFromFile() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("result.txt"));
+        String read;
+        while ((read = reader.readLine()) != null) {
+            System.out.println(read);
         }
     }
 }

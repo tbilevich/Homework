@@ -5,6 +5,8 @@ package search:
 		4.2 RegExSearch 
 		4.3 SearchEnginePunctuationNormalizer
 		5.1 SearchOfSpecificWords
+package task:
+		8.  SearchWord
 package utils:
 		2.  TextUtils
 		7.  FileUtils

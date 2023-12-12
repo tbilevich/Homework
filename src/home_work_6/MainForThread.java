@@ -1,67 +1,70 @@
 package home_work_6;
 
-import home_work_6.search.EasySearch;
-import home_work_6.search.SearchOfSpecificWords;
-import home_work_6.utils.TextUtils;
+import home_work_6.task.SearchWord;
 import home_work_6.utils.FileUtils;
 
-import java.io.File;
+import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-public class Main {
+public class MainForThread {
     public static void main(String[] args) {
 
-        System.out.println("The number of words used: " + TextUtils.numOfWord(Path.of("Война и мир_книга.txt")));
-        System.out.println();
-        System.out.println(TextUtils.findTopUsages(Path.of("Война и мир_книга.txt"), 10));
-        System.out.println();
-        SearchOfSpecificWords specificWords = new SearchOfSpecificWords();
-        System.out.println(specificWords.specificWords());
-        System.out.println();
-
         Scanner in = new Scanner(System.in);
+
         List<String> books = FileUtils.folderWithBooks(Path.of(getPathToFolder(in)));
 
-        for (String book : books) {
-            System.out.println(book);
-        }
-        System.out.println();
-        String bookName;
         FileUtils.clearFile(Path.of("result.txt"));
+        String searchedValue;
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
+        List<Future<String>> futures = new ArrayList<>();
 
         do {
-            System.out.println("Select a book. Or press Enter to exit: ");
-            bookName = in.nextLine();
-            if ("".equalsIgnoreCase(bookName)) {
+            System.out.println("Enter what you want to find in the books. Or press Enter to exit: ");
+            searchedValue = in.nextLine();
+            if ("".equalsIgnoreCase(searchedValue)) {
                 if (checkExit(in)) {
+                    do {
+                        try {
+                            Iterator<Future<String>> iterator = futures.iterator();
+                            while (iterator.hasNext()) {
+                                Future<String> future = iterator.next();
+                                if (future.isDone()) {
+                                    String result = future.get();
+                                    FileUtils.writeToFile(result);
+
+                                    iterator.remove();
+                                }
+                            }
+                        } catch (InterruptedException | ExecutionException e) {
+                            throw new RuntimeException("An unexpected error has occurred.");
+                        }
+                    } while (!futures.isEmpty());
                     break;
                 }
             } else {
-                if (books.contains(bookName)) {
-                    String text = TextUtils.convertFileToStr(Path.of("library" + File.separator + bookName));
-                    String searchedValue;
-
-                    do {
-                        System.out.println("Enter what you want to find in the book. Or press Enter to exit: ");
-                        searchedValue = in.nextLine();
-                        if ("".equalsIgnoreCase(searchedValue)) {
-                            if (checkExit(in)) {
-                                break;
-                            }
-                        } else {
-                            EasySearch easySearch = new EasySearch();
-                            FileUtils.writeToFile("Book: " + bookName + "; the searched word: " + searchedValue + " = " + easySearch.search(text, searchedValue));
-                            System.out.println("The number of '" + searchedValue + "' = " + easySearch.search(text, searchedValue));
-                        }
-                    } while (true);
-                } else {
-                    System.out.println("Incorrectly entered book title!");
-                    System.out.println();
+                for (String book : books) {
+                    futures.add(executorService.submit(new SearchWord(book, searchedValue)));
                 }
             }
         } while (true);
+
+        executorService.shutdown();
+
+        try {
+            FileUtils.printFromFile();
+        } catch (FileNotFoundException e) {
+            System.out.print("The file was not found!");
+        } catch (IOException e) {
+            System.out.print("File reading error: " + e.getMessage());
+        }
     }
 
     /**
@@ -103,5 +106,4 @@ public class Main {
         System.out.println("Are you sure you want to exit? (Y/N)");
         return "y".equalsIgnoreCase(in.nextLine());
     }
-
 }
